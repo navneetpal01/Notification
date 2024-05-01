@@ -18,6 +18,7 @@ class NotificationApplication : Application(){
                 "Counter Channel",
                 NotificationManager.IMPORTANCE_LOW
             )
+            // We get it here cause context is already here
             val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
             notificationManager.createNotificationChannel(counterChannel)
