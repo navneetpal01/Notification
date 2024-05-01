@@ -1,6 +1,9 @@
 package com.example.notification
 
+import android.Manifest
+import android.content.Intent
 import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.SystemBarStyle
@@ -13,6 +16,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.core.app.ActivityCompat
 import com.example.notification.ui.theme.NotificationTheme
 
 
@@ -25,6 +29,16 @@ class MainActivity : ComponentActivity() {
             )
         )
         super.onCreate(savedInstanceState)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(Manifest.permission.POST_NOTIFICATIONS),
+                111
+            )
+        }
+
+        val intent = Intent(this,CounterReceiver::class.java)
+        intent.action = CounterNotification.CounterActions.START.name
         setContent {
             NotificationTheme {
                 Column(
@@ -35,7 +49,7 @@ class MainActivity : ComponentActivity() {
                 ) {
                     Button(
                         onClick = {
-
+                            sendBroadcast(intent)
                         }
                     ) {
                         Text(text = "Show Counter Notification")
